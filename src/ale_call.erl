@@ -36,7 +36,7 @@
 
 %%%===================================================================
 %%% @doc Convert an Aleph AST Erlang term into formatted JSON binary.
-%%% @spec to_json(term()) -> binary()
+%%% -spec to_json(term()) -> binary()
 %%%===================================================================
 to_json(AlephTree) ->
     jsx:encode(AlephTree, [{space, 2}, {indent, 2}]).
@@ -48,14 +48,14 @@ to_json(AlephTree) ->
 %%%===================================================================
 %%% @doc Generate code from an Aleph AST.
 %%% Uses "ale" as the default output type.
-%%% @spec generate(term()) -> {ok,binary()} | {error,term()}
+%%% -spec generate(term()) -> {ok,binary()} | {error,term()}
 %%%===================================================================
 generate(AlephAST) ->
     generate(AlephAST, "ale").
 
 %%%===================================================================
 %%% @doc Generate code from an Aleph AST with specified output type.
-%%% @spec generate(term(), string()) -> {ok,binary()} | {error,term()}
+%%% -spec generate(term(), string()) -> {ok,binary()} | {error,term()}
 %%%===================================================================
 generate(AlephAST, OutputType) ->
     JsonAST = to_json(AlephAST),
@@ -64,7 +64,7 @@ generate(AlephAST, OutputType) ->
 %%%===================================================================
 %%% @doc Generate code from a JSON file.
 %%% Uses "ale" as the default output type.
-%%% @spec generate_from_file(string()) -> {ok,binary()} | {error,term()}
+%%% -spec generate_from_file(string()) -> {ok,binary()} | {error,term()}
 %%%===================================================================
 generate_from_file(JsonFile) ->
     generate_from_file(JsonFile, "ale").
@@ -72,7 +72,7 @@ generate_from_file(JsonFile) ->
 %%%===================================================================
 %%% @doc Generate code from a JSON file with specified output type.
 %%% Reads JSON content then passes to Rust compiler.
-%%% @spec generate_from_file(string(), string()) -> {ok,binary()} | {error,term()}
+%%% -spec generate_from_file(string(), string()) -> {ok,binary()} | {error,term()}
 %%%===================================================================
 generate_from_file(JsonFile, OutputType) ->
     case file:read_file(JsonFile) of
@@ -83,7 +83,7 @@ generate_from_file(JsonFile, OutputType) ->
 %%%===================================================================
 %%% @doc Set the file path of the Rust Aleph compiler executable.
 %%% Stored in the process dictionary for current process.
-%%% @spec set_rust_generator_path(string()) -> ok
+%%% -spec set_rust_generator_path(string()) -> ok
 %%%===================================================================
 set_rust_generator_path(Path) ->
     put(?CONFIG_KEY, #generator_config{rust_path = Path}),
@@ -93,7 +93,7 @@ set_rust_generator_path(Path) ->
 %%% @doc Get the Rust Aleph compiler executable path.
 %%% Checks process dictionary, then environment variable ALEPHC_BIN,
 %%% else returns the default path.
-%%% @spec get_rust_generator_path() -> string()
+%%% -spec get_rust_generator_path() -> string()
 %%%===================================================================
 get_rust_generator_path() ->
     case get(?CONFIG_KEY) of
@@ -108,7 +108,7 @@ get_rust_generator_path() ->
 %%%===================================================================
 %%% @doc Check if the Rust Aleph compiler executable exists and is a file.
 %%% Returns {ok, Path} or {error, not_found}.
-%%% @spec check_rust_generator() -> {ok,string()} | {error,not_found}
+%%% -spec check_rust_generator() -> {ok,string()} | {error,not_found}
 %%%===================================================================
 check_rust_generator() ->
     RustPath = get_rust_generator_path(),
@@ -119,7 +119,7 @@ check_rust_generator() ->
 
 %%%===================================================================
 %%% @doc Print diagnostic information about the Rust compiler configuration.
-%%% @spec diagnostic_info() -> ok
+%%% -spec diagnostic_info() -> ok
 %%%===================================================================
 diagnostic_info() ->
     RustPath = get_rust_generator_path(),
@@ -135,8 +135,8 @@ diagnostic_info() ->
 %%% @doc Call Rust compiler using OS command,
 %%% piping the JSON AST via echo and reading output.
 %%% Defaults to output type "ale".
-%%% @spec call_rust_generator_direct(binary() | string()) -> {ok,binary()} | {error,term()}
-%%% @spec call_rust_generator_direct(binary() | string(), string()) -> {ok,binary()} | {error,term()}
+%%% -spec call_rust_generator_direct(binary() | string()) -> {ok,binary()} | {error,term()}
+%%% -spec call_rust_generator_direct(binary() | string(), string()) -> {ok,binary()} | {error,term()}
 %%%===================================================================
 call_rust_generator_direct(JsonAST) ->
     call_rust_generator_direct(JsonAST, "ale").
@@ -167,8 +167,8 @@ call_rust_generator_direct(JsonAST, OutputType) ->
 %%% @doc Call Rust compiler using Erlang port for better IO control.
 %%% Sends compact single-line JSON, receives output from stdout.
 %%% Defaults to output type "ale".
-%%% @spec call_rust_generator_port(binary() | string()) -> {ok,binary()} | {error,term()}
-%%% @spec call_rust_generator_port(binary() | string(), string()) -> {ok,binary()} | {error,term()}
+%%% -spec call_rust_generator_port(binary() | string()) -> {ok,binary()} | {error,term()}
+%%% -spec call_rust_generator_port(binary() | string(), string()) -> {ok,binary()} | {error,term()}
 %%%===================================================================
 call_rust_generator_port(JsonAST) ->
     call_rust_generator_port(JsonAST, "ale").
