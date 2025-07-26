@@ -11,4 +11,26 @@
 - Simple error handling with `{ok, Result}` / `{error, Reason}` tuples.
 - Designed for easy integration in Erlang/OTP projects and Hex.pm packaging.
 
+ ## Example
+
+ ```
+ 1> AST = #{
+         <<"type">> => <<"Add">>,
+         <<"numberExpr1">> => #{
+             <<"type">> => <<"Int">>,
+             <<"value">> => <<"3">>
+         },
+         <<"numberExpr2">> => #{
+             <<"type">> => <<"Int">>,
+             <<"value">> => <<"4">>
+         }
+     }.
+  #{<<"numberExpr1">> =>
+        #{<<"type">> => <<"Int">>,<<"value">> => <<"3">>},
+    <<"numberExpr2">> =>
+        #{<<"type">> => <<"Int">>,<<"value">> => <<"4">>},
+    <<"type">> => <<"Add">>}
+  2> {ok, Code} = ale_call:generate(AST).
+  {ok,<<"3 + 4\n">>}
+```
 
