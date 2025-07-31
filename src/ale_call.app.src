@@ -1,6 +1,6 @@
 {application, ale_call, [
-    {description, "An OTP library"},
-    {vsn, "0.1.0"},
+    {description, "Aleph caller for Erlang implementation."},
+    {vsn, "0.1.1"},
     {registered, []},
     {applications, [
         kernel,
@@ -9,5 +9,5 @@
     {env, []},
     {modules, []},
     {licenses, ["Apache-2.0"]},
-    {links, []}
+    {links, [{"GitHub", "https://github.com/aleph-lang/ale_call"}]}
  ]}.
